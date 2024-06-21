@@ -1,0 +1,27 @@
+https://learn.microsoft.com/zh-tw/windows/uwp/gaming/glsl-to-hlsl-reference 
+
+https://www.5axxw.com/wiki/content/pf7y86#google_vignette
+
+https://blog.csdn.net/weixin_44423708/article/details/117132888
+
+https://www.bilibili.com/read/cv14628916/
+
+https://blog.csdn.net/qq_36510950/article/details/121880713 HLSL常用函数介绍
+https://blog.csdn.net/FreeSouthS/article/details/93982731【Optix-ShaderToy】体渲染与ShaderToy资源下载
+
+https://blog.csdn.net/qq_51603875/article/details/134926950 Unity中实现ShaderToy卡通火（移植篇）
+
+这行代码一时看不明白。慢慢细看，实际上是跟如下代码等价的。
+
+vec2 uv = fragCoord.xy / iResolution.xy
+uv = 2.0 * uv - 1.0;
+if (iResolution.x > iResolution.y) {
+    uv.x *= iResolution.x / iResolution.y;
+} else {
+    uv.y *= iResolution.y / iResolution.x;
+}
+在 shadertoy 中，iResolution 表示画布像素高宽。
+
+fragCoord.xy / iResolution.xy 会将坐标转换到 [0, 1] 之间。
+uv = 2.0 * uv - 1.0 将坐标转换到 [-1, 1] 之间，中央为原点（0，0）。
+随后的判断，保持短边为 [-1, 1]，长的那条边坐标相应放大。
